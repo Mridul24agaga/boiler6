@@ -1,19 +1,23 @@
 import NavBar from "@/components/navbar";
 import Hero from "@/components/hero";
-import Partners from "@/components/partners";
 import Pricing from "@/components/pricing";
 import Faq from "@/components/faq";
-import Footer from "@/components/footer";
-
+import { LogoTicker } from "@/components/logoticker";
+import  Features  from "@/components/Features"
+import { InfiniteMovingCardsDemo } from "@/components/Testimonial";
+import Cta from "@/components/cta"
 export default function Home() {
   return (
     <main className="flex flex-col min-h-dvh">
       <NavBar />
       <Hero />
-      <Partners />
+      <LogoTicker />
+      <Features />
       <Pricing />
+      <InfiniteMovingCardsDemo/>
       <Faq />
-      <Footer />
+      <Cta />
+
     </main>
   );
 }

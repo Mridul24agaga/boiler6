@@ -1,96 +1,110 @@
-"use client";
-/* eslint-disable @next/next/no-img-element */
-import { Button } from "@nextui-org/button";
-import { motion } from "framer-motion";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "@nextui-org/modal";
-import { useDisclosure } from "@nextui-org/use-disclosure";
-import { Link } from "@nextui-org/link";
+'use client'
 
-export default function Hero() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+
+export default function Component() {
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  useEffect(() => {
+    setIsLoaded(true)
+  }, [])
+
+  const fadeUpVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  }
+
   return (
-    <div className="relative justify-center items-center">
-      <section className="max-w-screen-xl mx-auto px-4 py-28 gap-12 md:px-8 flex flex-col justify-center items-center">
+    <div className="min-h-screen flex flex-col items-center justify-center text-center px-4 bg-black relative overflow-hidden">
+      {/* Grid background */}
+      <div 
+        className="absolute inset-0 bg-black"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), 
+                            linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px)`,
+          backgroundSize: '50px 50px',
+        }}
+      />
+      
+      {/* Radial gradient for a subtle glow effect */}
+      <div className="absolute inset-0 bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_25%,black)]" />
+
+      <div className="relative z-10 max-w-4xl mx-auto px-4 py-16 bg-black bg-opacity-70 rounded-lg shadow-lg backdrop-blur-sm">
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{
-            y: 0,
-            opacity: 1,
-          }}
-          transition={{ duration: 0.6, type: "spring", bounce: 0 }}
-          className="flex flex-col justify-center items-center space-y-5 max-w-4xl mx-auto text-center"
+          className="mb-8"
+          initial="hidden"
+          animate={isLoaded ? "visible" : "hidden"}
+          variants={fadeUpVariants}
+          transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <span className="w-fit h-full text-sm bg-card px-2 py-1 border border-border rounded-full">
-            NextUI template its here!
+          <span className="bg-purple-600 text-white text-sm font-medium px-3 py-1 rounded-full inline-flex items-center">
+            <span>NextBoilerPlate V1 is now available!</span>
+            <span className="ml-1">🚀</span>
           </span>
-          <h1 className="text-4xl font-medium tracking-tighter mx-auto md:text-6xl text-pretty ">
-            Use Nextjs and NextUI to build your website
-          </h1>
-          <p className="max-w-2xl text-lg mx-auto text-muted-foreground text-balance">
-            Create your website with NextUI and Nextjs, the best UI Framework.
-          </p>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="items-center justify-center gap-x-3 space-y-3 sm:flex sm:space-y-0"
-          >
-            <Button onPress={onOpen} color="primary" variant="shadow">
-              See more
-            </Button>
-            <Modal
-              isOpen={isOpen}
-              placement="center"
-              onOpenChange={onOpenChange}
-            >
-              <ModalContent>
-                <ModalHeader>Gonzalo Chalé</ModalHeader>
-                <ModalBody>
-                  I&apos;m Systems Engineer from Cancún, México, always building
-                  things for the web.
-                </ModalBody>
-                <ModalFooter>
-                  <Button
-                    as={Link}
-                    href="https://x.com/gonzalochale"
-                    color="primary"
-                    variant="solid"
-                    size="sm"
-                  >
-                    Connect on{" "}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      fill="none"
-                      viewBox="0 0 1200 1227"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M714.163 519.284 1160.89 0h-105.86L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.866l409.625-476.152 327.181 476.152H1200L714.137 519.284h.026ZM569.165 687.828l-47.468-67.894-377.686-540.24h162.604l304.797 435.991 47.468 67.894 396.2 566.721H892.476L569.165 687.854v-.026Z"
-                      />
-                    </svg>
-                  </Button>
-                </ModalFooter>
-              </ModalContent>
-            </Modal>
-          </motion.div>
         </motion.div>
-      </section>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 2, delay: 0.5, type: "spring", bounce: 0 }}
-        className="w-full h-full absolute -top-32 flex justify-end items-center pointer-events-none "
-      >
-        <div className="w-3/4 flex justify-center items-center">
-          <div className="w-12 h-[600px] bg-light blur-[70px] rounded-3xl max-sm:rotate-[15deg] sm:rotate-[35deg] [will-change:transform]"></div>
-        </div>
-      </motion.div>
+
+        <motion.p
+          className="text-gray-400 mb-6"
+          initial="hidden"
+          animate={isLoaded ? "visible" : "hidden"}
+          variants={fadeUpVariants}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          The next-generation BoilerPlate for Startup&#39;s
+        </motion.p>
+
+        <motion.h1
+          className="text-5xl md:text-6xl font-bold mb-6 text-white"
+          initial="hidden"
+          animate={isLoaded ? "visible" : "hidden"}
+          variants={fadeUpVariants}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          Launch And Build Your Startup
+          <br />
+          <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+            In days, Not Weeks
+          </span>
+        </motion.h1>
+
+        <motion.div
+          initial="hidden"
+          animate={isLoaded ? "visible" : "hidden"}
+          variants={fadeUpVariants}
+          transition={{ duration: 0.5, delay: 0.8 }}
+        >
+          <p className="text-xl mb-8 text-gray-300">
+            Build unlimited SaaS products with any SaaS Starter Kit. Save months of work and focus on building a profitable business. Get lifetime access to all the kits for only $299.
+          </p>
+        </motion.div>
+
+        <motion.div
+          className="flex flex-col sm:flex-row justify-center gap-4"
+          initial="hidden"
+          animate={isLoaded ? "visible" : "hidden"}
+          variants={fadeUpVariants}
+          transition={{ duration: 0.5, delay: 1 }}
+        >
+          <Link
+            href="#"
+            className="bg-blue-600 text-white font-semibold py-3 px-6 rounded-full inline-flex items-center justify-center hover:bg-blue-700 transition-colors text-sm md:text-base"
+          >
+            <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Get NextBoilerPlate
+          </Link>
+
+          <Link
+            href="#"
+            className="bg-gray-800 text-white font-semibold py-3 px-6 rounded-full inline-flex items-center justify-center hover:bg-gray-700 transition-colors text-sm md:text-base border border-gray-600"
+          >
+            View Docs
+          </Link>
+        </motion.div>
+      </div>
     </div>
-  );
+  )
 }

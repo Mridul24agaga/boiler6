@@ -1,116 +1,122 @@
-"use client";
-import { Card, CardBody, CardFooter } from "@nextui-org/card";
-import { Button } from "@nextui-org/button";
-import { Divider } from "@nextui-org/divider";
-import { motion } from "framer-motion";
+"use client"
 
-export default function Pricing() {
-  const plans = [
-    {
-      name: "Hobby Plan",
-      desc: "Enjoy limited access to all our features",
-      price: 0,
-      isMostPop: false,
-      features: ["Make the best schedule", "Support your team"],
-    },
-    {
-      name: "Basic Plan",
-      desc: "Make the best schedule for your team",
-      price: 10,
-      isMostPop: true,
-      features: [
-        "Make the best schedule",
-        "Support your team",
-        "Build your website",
-        "Video calls",
-      ],
-    },
-    {
-      name: "Enterprise Plan",
-      desc: "Make the best schedule for your team and more",
-      price: 20,
-      isMostPop: false,
-      features: [
-        "Make the best schedule",
-        "Support your team",
-        "Build your website",
-        "Video calls",
-        "Audio calls",
-      ],
-    },
-  ];
+import { motion } from "framer-motion"
+import { FaCheck, FaTimes } from "react-icons/fa"
 
+export default function Component() {
   return (
-    <motion.section
-      initial={{ y: 20, opacity: 0 }}
-      whileInView={{
-        y: 0,
-        opacity: 1,
-      }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: 0.5, type: "spring", bounce: 0 }}
-      className="max-w-screen-xl w-full mx-auto px-4 py-28 gap-5 md:px-8 flex flex-col justify-center items-center"
-    >
-      <div className="flex flex-col gap-3">
-        <h3 className="text-xl font-semibold sm:text-2xl bg-gradient-to-b from-foreground to-muted-foreground text-transparent bg-clip-text">
-          Pricing Plans for your business
-        </h3>
-        <p className="max-w-xl text-muted-foreground text-center">
-          Select the plan that best suits your needs.
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white py-10">
+      <div className="text-center mb-12">
+        <h2 className="text-4xl font-bold mb-4">Simple, scalable pricing</h2>
+        <p className="text-xl text-gray-600">
+          All plans are currently 30% off for the first 50 customers (20 left)
         </p>
       </div>
-      <div className="mt-16 gap-10 grid lg:grid-cols-3 place-content-center">
-        {plans.map((item, idx) => (
-          <Card
-            key={idx}
-            shadow="none"
-            className={`relative rounded-[20px] p-[2px] will-change-transform ${
-              item.isMostPop ? "sm:scale-110" : ""
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl">
+        {plans.map((plan, index) => (
+          <motion.div
+            key={plan.name}
+            className={`bg-black text-white rounded-2xl shadow-lg p-8 relative ${
+              plan.popular ? "border-2 border-purple-500" : ""
             }`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
           >
-            {item.isMostPop ? (
-              <span className="absolute inset-[-1000%] animate-[spin_6s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#016FEE_70%,#C7DBFB_100%)]" />
-            ) : (
-              <span className="absolute inset-[-1000%] bg-border" />
+            {plan.popular && (
+              <div className="absolute top-4 right-4 bg-purple-600 text-white text-sm px-3 py-1 rounded-full">
+                Popular
+              </div>
             )}
-            <div className="z-[2] flex flex-col justify-between w-full h-full bg-card rounded-[18px] p-5">
-              <CardBody className="w-full flex items-start gap-3">
-                <div className="flex flex-col">
-                  <h4 className="text-xl font-light">{item.name}</h4>
-                  <span className="text-muted-foreground text-sm font-light">
-                    {item.desc}
+            <h3 className="text-sm font-medium text-gray-300 mb-2">{plan.forWho}</h3>
+            <p className="text-3xl font-bold mb-2">{plan.name}</p>
+            <p className="text-4xl font-bold mb-4">${plan.price} / mo</p>
+            <p className="text-gray-400 mb-6">{plan.description}</p>
+            <ul className="mb-8 space-y-3">
+              {plan.features.map((feature, idx) => (
+                <li key={idx} className="flex items-center">
+                  <span className={`mr-2 ${feature.included ? "text-white" : "text-red-400"}`}>
+                    {feature.included ? (
+                      <FaCheck aria-hidden="true" />
+                    ) : (
+                      <FaTimes aria-hidden="true" />
+                    )}
                   </span>
-                </div>
-                <span className="text-2xl font-light">${item.price}</span>
-
-                <Divider />
-
-                <div className="flex flex-col gap-5 pb-5">
-                  <span className="text-muted-foreground text-sm font-light">
-                    Includes
-                  </span>
-                  <ul className="flex flex-col gap-2">
-                    {item.features.map((feature, index) => (
-                      <li key={index} className="text-sm font-light">
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </CardBody>
-              <CardFooter className="p-0">
-                <Button
-                  className="w-full"
-                  variant="solid"
-                  color={item.isMostPop ? "primary" : "default"}
-                >
-                  Get Started
-                </Button>
-              </CardFooter>
-            </div>
-          </Card>
+                  <span className="sr-only">{feature.included ? "Included" : "Not included"}</span>
+                  {feature.text}
+                </li>
+              ))}
+            </ul>
+            <motion.button
+              className={`w-full py-3 px-6 rounded-lg font-semibold transition-colors ${
+                plan.popular
+                  ? "bg-purple-600 text-white hover:bg-purple-700"
+                  : "bg-white text-black hover:bg-gray-200"
+              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Get Started
+            </motion.button>
+          </motion.div>
         ))}
       </div>
-    </motion.section>
-  );
+    </div>
+  )
 }
+
+const plans = [
+  {
+    name: "Basic",
+    forWho: "For individuals",
+    price: 39,
+    description: "Perfect for smaller projects",
+    popular: false,
+    features: [
+      { included: true, text: "250 lead credits / mo" },
+      { included: true, text: "Supports Twitter/X" },
+      { included: true, text: "Realtime Notifications" },
+      { included: true, text: "AI Replies" },
+      { included: true, text: "Basic Analytics" },
+      { included: false, text: "Supports Reddit" },
+      { included: false, text: "Supports LinkedIn" },
+      { included: false, text: "Automated follow-up" },
+    ],
+  },
+  {
+    name: "Launch",
+    forWho: "For startups/agencies",
+    price: 79,
+    description: "Perfect for growth-stage companies",
+    popular: true,
+    features: [
+      { included: true, text: "1000 lead credits / mo" },
+      { included: true, text: "Supports Twitter/X" },
+      { included: true, text: "Realtime Notifications" },
+      { included: true, text: "AI Replies" },
+      { included: true, text: "Basic Analytics" },
+      { included: true, text: "Supports Reddit" },
+      { included: false, text: "Supports LinkedIn" },
+      { included: false, text: "Automated follow-up" },
+    ],
+  },
+  {
+    name: "Scale",
+    forWho: "For enterprises",
+    price: 299,
+    description: "For larger scale companies",
+    popular: false,
+    features: [
+      { included: true, text: "5000 lead credits / mo" },
+      { included: true, text: "Supports Twitter/X" },
+      { included: true, text: "Realtime Notifications" },
+      { included: true, text: "AI Replies" },
+      { included: true, text: "Advanced Analytics" },
+      { included: true, text: "Supports Reddit" },
+      { included: true, text: "Supports LinkedIn" },
+      { included: true, text: "Automated follow-up" },
+    ],
+  },
+]
